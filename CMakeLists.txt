@@ -13,7 +13,7 @@ add_executable(main
     main.c
 )
 
-pico_enable_stdio_usb(main 1)
+pico_enable_stdio_usb(main 0)
 pico_enable_stdio_uart(main 1)
 
 target_include_directories(main PRIVATE
