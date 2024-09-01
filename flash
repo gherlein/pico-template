@@ -1,1 +1,6 @@
-sudo openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed 5000" -c "program $1 verify reset exit"
+set -e
+if [ "$#" -ne 1 ]; then
+    echo "you must pass the filename to the elf file you want to flash to the Pico"
+    exit
+fi
+openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed 5000" -c "program $1 verify reset exit"

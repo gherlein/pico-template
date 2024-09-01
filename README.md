@@ -175,7 +175,7 @@ You can also install the binary on the pico using it's native bootloader:
 
 ## Resetting the Pico using the PicoProbe
 
-The makefile supports direct reset of the pico (make reset) - see the script "reset" to see what it does
+The makefile supports direct reset of the pico (make reset) - see the script "reset" to see what it does.  This script will reset BOTH cores, so be sure that's what you want.
 
 ```
 make reset
