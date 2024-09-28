@@ -2,7 +2,9 @@ A template project for quick-starting C-based RP2040 Raspberry Pi Pico projects 
 
 ## HEADS UP:  this uses a library that also must be installed
 
-This uses the excellent pico-lib2 library.  The upstream project is available at https://github.com/iiot2k/pico-lib2.  We have forked that and are actively developing it at https://github.com/gherlein/pico-lib2.  We are aiming to upstream changes (such as supporting the pico_w board) but it's recommended to use the fork until our changes are accepted.
+This uses a library derived from the the excellent [pico-lib2](https://github.com/iiot2k/pico-lib2.) library.  We have forked that and are actively developing it at https://github.com/gherlein/pico-lib3.  Until we set this up as a git submodule, just clone that repo alongside this one and "ln -s ../pico-lib3 ." inside this repo.  
+
+This is a WORK IN PROGRESS.  When it stabalizes a bit we'll clean it up to use git submodules and be a little more organized.
 
 ## Why Use a PicoProbe?
 
