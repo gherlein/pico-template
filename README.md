@@ -1,5 +1,9 @@
 A template project for quick-starting C-based RP2040 Raspberry Pi Pico projects in Visual Studio Code, using the picoprobe programmer.
 
+## HEADS UP:  this uses a library that also must be installed
+
+This uses the excellent pico-lib2 library.  The upstream project is available at https://github.com/iiot2k/pico-lib2.  We have forked that and are actively developing it at https://github.com/gherlein/pico-lib2.  We are aiming to upstream changes (such as supporting the pico_w board) but it's recommended to use the fork until our changes are accepted.
+
 ## Why Use a PicoProbe?
 
 ### No-Touch Flashing the Pico
@@ -35,9 +39,11 @@ Take special note to get your ENV variables set. If you don't set them in your .
 ```bash
 export PICO_SDK_PATH=$HOME/src/pico/pico-sdk
 export PICO_BOARD=pico
+#export PICO_BOARD=pico_w
 export PICO_PLAYGROUND_PATH=$HOME/src/pico/pico-playground
 export PICO_EXAMPLES_PATH=$HOME/src/pico/pico-examples
 export PICO_EXTRAS_PATH=$HOME/src/pico/pico-extras
+export PICO_LIB2_PATH=$HOME/src/pico/pico-lib2
 ```
 
 ### Direnv
@@ -66,10 +72,11 @@ You can reload the rules with "sudo udevadm trigger" - no reboot required. After
 1. Make a project directory in your pico-sdk parent directory (usually `~/pico/projects`, with sdk at `~/pico/pico-sdk`), e.g. make `~/pico/projects`.
 2. Press [Use this template], or, download this template as a zip.
 3. Clone your repository/Unzip the downloaded folder to your new project directory.
-4. Write whatever you want in main.c, add more files, go wild...
-5. Create a "build" directory (mkdir build) - or just type 'make prep'
-6. Edit the Cmake file to include dependencies and such (see below)
-7. Build! (make or make -JX where X is the number of cores you have)
+4. Download the [pico-lib2 project](https://github.com/gherlein/pico-lib2) and set the PICO_LIB2_PATH environment variable to point to that folder.
+5. Write whatever you want in main.c, add more files, go wild...
+6. Create a "build" directory (mkdir build) - or just type 'make prep'
+7. Edit the Cmake file to include dependencies and such (see below)
+8. Build! (make or make -JX where X is the number of cores you have)
 
 ## Changing the CMake file for your own use
 
@@ -102,6 +109,7 @@ pico_add_extra_outputs(main)
 
 target_link_libraries(main
  pico_stdlib
+ lib2_sys
  # other libs as needed
 )
 
