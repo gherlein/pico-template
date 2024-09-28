@@ -7,7 +7,7 @@ project(main C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "src/*.c")
-file(GLOB_RECURSE PICOLIB2 RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "pico-lib2/*.c")
+file(GLOB_RECURSE PICOLIB2 RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "pico-lib3/*.c")
 
 
 pico_sdk_init()
@@ -22,11 +22,11 @@ pico_enable_stdio_uart(main 1)
 
 target_include_directories(main PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
-        pico-lib2/sys/include
+        pico-lib3/src/sys/include
         # add other folders as needed
 )
 
-add_subdirectory(pico-lib2)
+add_subdirectory(pico-lib3/src)
 
 pico_add_extra_outputs(main)
 
@@ -34,7 +34,8 @@ pico_add_extra_outputs(main)
 add_compile_definitions(RP_PICO_W_BOARD)
 
 target_link_libraries(main
-	pico_stdlib
+	
+    pico_stdlib
     pico_cyw43_arch_none # if NOT using a PICO_W board comment this line
     pico_multicore
     hardware_irq
