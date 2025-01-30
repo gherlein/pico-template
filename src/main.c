@@ -1,33 +1,56 @@
-/*
-    This code originates from the Getting started with Raspberry Pi Pico document
-    https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf
-    CC BY-ND Raspberry Pi (Trading) Ltd
-*/
-
+#include "pico/stdlib.h"
 #include <stdio.h>
-
 #include "hardware/gpio.h"
 #include "pico/binary_info.h"
 #include "pico/stdlib.h"
-#include "sys_fn.h"
-#ifdef RP_PICO_W_BOARD
+
+// Pico W devices use a GPIO on the WIFI chip for the LED,
+// so when building for Pico W, CYW43_WL_GPIO_LED_PIN will be defined
+#ifdef CYW43_WL_GPIO_LED_PIN
 #include "pico/cyw43_arch.h"
 #endif
 
-const uint LED_PIN = 25;
+#ifndef LED_DELAY_MS
+#define LED_DELAY_MS 100
+#endif
+
+// Perform initialisation
+int pico_led_init(void) {
+#if defined(PICO_DEFAULT_LED_PIN)
+    // A device like Pico that uses a GPIO for the LED will define PICO_DEFAULT_LED_PIN
+    // so we can use normal GPIO functionality to turn the led on and off
+    gpio_init(PICO_DEFAULT_LED_PIN);
+    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+    return PICO_OK;
+#elif defined(CYW43_WL_GPIO_LED_PIN)
+    // For Pico W devices we need to initialise the driver etc
+    return cyw43_arch_init();
+#endif
+}
+
+// Turn the led on or off
+void pico_set_led(bool led_on) {
+#if defined(PICO_DEFAULT_LED_PIN)
+    // Just set the GPIO on or off
+    gpio_put(PICO_DEFAULT_LED_PIN, led_on);
+#elif defined(CYW43_WL_GPIO_LED_PIN)
+    // Ask the wifi "driver" to set the GPIO on or off
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, led_on);
+#endif
+}
 
 int main() {
-    bi_decl(bi_program_description("PROJECT DESCRIPTION"));
-
-    sys_init();
-
-    sys_led(1);
-
-    while (1) {
-        sys_led(0);
-        sleep_ms(250);
-        sys_led(1);
-        puts("Hello World\n");
-        sleep_ms(1000);
-    }
+  stdout_uart_init();
+  int rc = pico_led_init();
+  hard_assert(rc == PICO_OK);
+  while (true) {
+        pico_set_led(true);
+        sleep_ms(LED_DELAY_MS);
+	printf("ON\n");
+        pico_set_led(false);
+	printf("OFF\n");
+        sleep_ms(LED_DELAY_MS);
+  }
 }
+
+
