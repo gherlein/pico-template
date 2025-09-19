@@ -52,5 +52,3 @@ int main() {
         sleep_ms(LED_DELAY_MS);
   }
 }
-
-
