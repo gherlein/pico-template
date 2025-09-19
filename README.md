@@ -1,18 +1,12 @@
 A template project for quick-starting C-based RP2040 Raspberry Pi Pico projects in Visual Studio Code, using the picoprobe programmer.
 
-## HEADS UP:  this uses a library that also must be installed
-
-This uses a library derived from the the excellent [pico-lib2](https://github.com/iiot2k/pico-lib2.) library.  We have forked that and are actively developing it at https://github.com/gherlein/pico-lib3.  Until we set this up as a git submodule, just clone that repo alongside this one and "ln -s ../pico-lib3 ." inside this repo.  
-
-This is a WORK IN PROGRESS.  When it stabalizes a bit we'll clean it up to use git submodules and be a little more organized.
-
 ## What Does This Specific Example Do?
 
-This is the "blinky" program for the Pico W board.  We are using that board because the projects we are doing all are IoT and need networking or BLE, and having that on the board is a huge advantage.  Later we may add other boards.  We have tried to make it fairly easy to make a few edits and use a plain Pico board (or a clone) if that's what you need to do.
+This is the "blinky" program. It just blinks an LED.  It's for a generic Pico RP2040 board.
 
 ## Motivation
 
-We wanted an easy way to start a project around the Pico W with enough plumbing in place that we are not doing grunge work to do basic things.  There are probably other solutions for this but we also wanted to grok this ecosystem from first principles, so here we are.
+We wanted an easy way to start a project with enough plumbing in place that we are not doing grunge work to do basic things.  There are probably other solutions for this but we also wanted to grok this ecosystem from first principles, so here we are.
 
 ## Why Use a PicoProbe?
 
@@ -30,13 +24,7 @@ It's often useful to restart your program. For example, if you are debugging a c
 
 ## Prerequisites
 
-This assumes that
-
-1. You have already installed OpenOCD with picoprobe, according to the steps in [Getting Started](https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf), Appendix A
-2. Your VSCode has already been configured according to the steps in [Getting Started](https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf), Chapter 7
-3. You have installed the picoprobe uf2 to one Pico, and it is connected to the other Pico with the correct wiring (refer again to Appendix A).
-4. OR, you bought a [PicoProbe](https://www.raspberrypi.com/products/debug-probe/) - [Amozon Link](https://www.amazon.com/GeeekPi-Raspberry-Connetor-RP2040-Microcontroller/dp/B0C5XNQ7FD)
-5. You have added yourself to the plugdev group so that you don't need root privledges to use the PicoProbe.
+This assumes that you have installed the [pico-sdk-tools](https://github.com/raspberrypi/pico-sdk-tools).
 
 ## Pico SDK installation and references
 
@@ -53,7 +41,6 @@ export PICO_BOARD=pico
 export PICO_PLAYGROUND_PATH=$HOME/src/pico/pico-playground
 export PICO_EXAMPLES_PATH=$HOME/src/pico/pico-examples
 export PICO_EXTRAS_PATH=$HOME/src/pico/pico-extras
-export PICO_LIB2_PATH=$HOME/src/pico/pico-lib2
 ```
 
 ### Direnv
@@ -82,12 +69,10 @@ You can reload the rules with "sudo udevadm trigger" - no reboot required. After
 1. Make a project directory in your pico-sdk parent directory (usually `~/pico/projects`, with sdk at `~/pico/pico-sdk`), e.g. make `~/pico/projects`.
 2. Press [Use this template], or, download this template as a zip.
 3. Clone your repository/Unzip the downloaded folder to your new project directory.
-4. Clone the [pico-lib3 project](https://github.com/gherlein/pico-lib3) parallel to this repo on your filesystem.
-5. Link that folder inside this one:  "ln -s ../pico-lib3 ." - this makes a symlink to that folder (this will be git submodules later)
-6. Write whatever you want in main.c, add more files, go wild...
-7. Create a "build" directory (mkdir build) - or just type 'make prep'
-8. Edit the Cmake file to include dependencies and such (see below)
-9. Build! (make or make -JX where X is the number of cores you have)
+4. Write whatever you want in main.c, add more files, go wild...
+5. Create a "build" directory (mkdir build) - or just type 'make prep'
+6. Edit the Cmake file to include dependencies and such (see below)
+7. Build! (make or make -JX where X is the number of cores you have)
 
 ## Other Nice Make Targets
 
